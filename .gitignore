@@ -1,7 +1,6 @@
 .cache
 build/
 
-*.sh
 *.json
 
 rel*
