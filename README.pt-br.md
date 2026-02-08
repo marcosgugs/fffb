@@ -61,11 +61,11 @@ os LEDs indicadores de RPM do volante são controlados pela telemetria de RPM do
 
 ## uso
 
-<!-- ### binários pré-compilados
+### binários pré-compilados
 
 binários estão disponíveis na [página de releases](https://github.com/marcosgugs/fffb/releases)
 basta copiar `libfffb.dylib` para o diretório de plugins
-(o diretório de plugins deve estar ao lado do executável do jogo, o caminho padrão para o ats seria `~/Library/Application\ Support/Steam/steamapps/common/Euro\ Truck\ Simulator/Euro\ Truck\ Simulator.app/Contents/MacOS/plugins`) -->
+(o diretório de plugins deve estar ao lado do executável do jogo, o caminho padrão para o ats seria `~/Library/Application\ Support/Steam/steamapps/common/Euro\ Truck\ Simulator/Euro\ Truck\ Simulator.app/Contents/MacOS/plugins`)
 
 ### compilando a partir do código fonte
 

@@ -61,11 +61,11 @@ the wheel's RPM indicator LEDs are driven by the engine RPM telemetry, progressi
 
 ## usage
 
-<!-- ### prebuilt binaries
+### prebuilt binaries
 
 binaries are available on the [releases page](https://github.com/marcosgugs/fffb/releases)
 simply copy `libfffb.dylib` to the plugin directory
-(plugin directory should be next to the game's executable, default for ats would be `~/Library/Application\ Support/Steam/steamapps/common/Euro\ Truck\ Simulator/Euro\ Truck\ Simulator.app/Contents/MacOS/plugins`) -->
+(plugin directory should be next to the game's executable, default for ats would be `~/Library/Application\ Support/Steam/steamapps/common/Euro\ Truck\ Simulator/Euro\ Truck\ Simulator.app/Contents/MacOS/plugins`)
 
 ### building from source
 
