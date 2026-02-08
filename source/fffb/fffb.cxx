@@ -57,6 +57,7 @@ SCSAPI_VOID telemetry_store_orientation ( [[ maybe_unused ]] scs_string_t const 
 SCSAPI_VOID telemetry_store_float       ( [[ maybe_unused ]] scs_string_t const name, [[ maybe_unused ]] scs_u32_t const index, scs_value_t const * const value, scs_context_t const context ) ;
 SCSAPI_VOID telemetry_store_s32         ( [[ maybe_unused ]] scs_string_t const name, [[ maybe_unused ]] scs_u32_t const index, scs_value_t const * const value, scs_context_t const context ) ;
 SCSAPI_VOID telemetry_store_u32         ( [[ maybe_unused ]] scs_string_t const name, [[ maybe_unused ]] scs_u32_t const index, scs_value_t const * const value, scs_context_t const context ) ;
+SCSAPI_VOID telemetry_store_fvector     ( [[ maybe_unused ]] scs_string_t const name, [[ maybe_unused ]] scs_u32_t const index, scs_value_t const * const value, scs_context_t const context ) ;
 
 SCSAPI_RESULT scs_telemetry_init     ( scs_u32_t const version, scs_telemetry_init_params_t const * const params ) ;
 SCSAPI_VOID   scs_telemetry_shutdown (                                                                           ) ;
@@ -112,8 +113,8 @@ bool update_ffb ( fffb::telemetry_state const & telemetry ) noexcept
 {
         if( !g_simulator.wheel_ref() ) return false ;
 
-        static uti::i32_t ffb_rate       { 32 } ;
-        static uti::i32_t ffb_rate_count { 32 } ;
+        static uti::i32_t ffb_rate       { 4 } ;
+        static uti::i32_t ffb_rate_count { 4 } ;
 
         --ffb_rate_count ;
 
@@ -222,6 +223,14 @@ SCSAPI_VOID telemetry_store_u32 ( [[ maybe_unused ]] scs_string_t const name, [[
         *static_cast< int * >( context ) = value->value_u32.value ;
 }
 
+SCSAPI_VOID telemetry_store_fvector ( [[ maybe_unused ]] scs_string_t const name, [[ maybe_unused ]] scs_u32_t const index, scs_value_t const * const value, scs_context_t const context )
+{
+        assert( value ) ;
+        assert( value->type == SCS_VALUE_TYPE_fvector ) ;
+        assert( context ) ;
+        *static_cast< float * >( context ) = value->value_fvector.x ;
+}
+
 SCSAPI_RESULT scs_telemetry_init ( scs_u32_t const version, scs_telemetry_init_params_t const * const params )
 {
         if( version != SCS_TELEMETRY_VERSION_1_01 )
@@ -306,6 +315,11 @@ SCSAPI_RESULT scs_telemetry_init ( scs_u32_t const version, scs_telemetry_init_p
 
         version_params->register_for_channel( SCS_TELEMETRY_TRUCK_CHANNEL_wheel_substance, 0, SCS_VALUE_TYPE_u32, SCS_TELEMETRY_CHANNEL_FLAG_no_value, telemetry_store_u32, &g_telemetry_state.substance_l ) ;
         version_params->register_for_channel( SCS_TELEMETRY_TRUCK_CHANNEL_wheel_substance, 1, SCS_VALUE_TYPE_u32, SCS_TELEMETRY_CHANNEL_FLAG_no_value, telemetry_store_u32, &g_telemetry_state.substance_r ) ;
+
+        version_params->register_for_channel( SCS_TELEMETRY_TRUCK_CHANNEL_local_linear_acceleration, SCS_U32_NIL, SCS_VALUE_TYPE_fvector, SCS_TELEMETRY_CHANNEL_FLAG_none, telemetry_store_fvector, &g_telemetry_state.lateral_accel ) ;
+
+        version_params->register_for_channel( SCS_TELEMETRY_TRUCK_CHANNEL_wheel_susp_deflection, 0, SCS_VALUE_TYPE_float, SCS_TELEMETRY_CHANNEL_FLAG_none, telemetry_store_float, &g_telemetry_state.suspension_deflection_l ) ;
+        version_params->register_for_channel( SCS_TELEMETRY_TRUCK_CHANNEL_wheel_susp_deflection, 1, SCS_VALUE_TYPE_float, SCS_TELEMETRY_CHANNEL_FLAG_none, telemetry_store_float, &g_telemetry_state.suspension_deflection_r ) ;
 
         g_game_log( SCS_LOG_TYPE_message, "fffb::info : channel registration completed" ) ;
         FFFB_F_INFO_S( "scs::scs_telemetry_init", "channel registration completed" ) ;

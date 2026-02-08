@@ -144,6 +144,7 @@ public:
         static constexpr report build_report ( ffb_protocol const protocol, command_type const cmd_type, force const & f ) noexcept ;
 
         static constexpr report set_led_pattern ( ffb_protocol const protocol, uti::u8_t pattern ) noexcept ;
+        static constexpr report set_range      ( ffb_protocol const protocol, uti::u16_t range ) noexcept ;
 
         static constexpr report disable_autocenter ( ffb_protocol const protocol, uti::u8_t slots ) noexcept ;
         static constexpr report  enable_autocenter ( ffb_protocol const protocol, uti::u8_t slots ) noexcept ;
@@ -218,6 +219,23 @@ constexpr report protocol::set_led_pattern ( ffb_protocol const protocol, uti::u
                         return {} ;
                 default :
                         FFFB_F_ERR_S( "protocol::set_led_pattern", "protocol not supported" ) ;
+                        return {} ;
+        }
+}
+
+constexpr report protocol::set_range ( ffb_protocol const protocol, uti::u16_t range ) noexcept
+{
+        uti::u8_t range_lo = static_cast< uti::u8_t >( range & 0x00FF ) ;
+        uti::u8_t range_hi = static_cast< uti::u8_t >( ( range & 0xFF00 ) >> 8 ) ;
+
+        switch( protocol )
+        {
+                case ffb_protocol::logitech_classic : return { 0xF8, 0x81, range_lo, range_hi, 0x00, 0x00, 0x00 } ;
+                case ffb_protocol::logitech_hidpp   :
+                        FFFB_F_ERR_S( "protocol::set_range", "protocol not implemented" ) ;
+                        return {} ;
+                default :
+                        FFFB_F_ERR_S( "protocol::set_range", "protocol not supported" ) ;
                         return {} ;
         }
 }
@@ -342,9 +360,11 @@ constexpr vector< report > protocol::init_sequence ( ffb_protocol const protocol
                 {
                         case Logitech_G923_PS_DeviceID:
                                 reports.push_back( { 0x30, 0xf8, 0x09, 0x05, 0x01 } ) ;
+                                reports.push_back( set_range( protocol, 900 ) ) ;
                                 break ;
                         case Logitech_G29_PS4_DeviceID:
                                 reports.push_back( { 0x30, 0xf8, 0x09, 0x05, 0x01 } ) ;
+                                reports.push_back( set_range( protocol, 900 ) ) ;
                                 break ;
                         default:
                                 FFFB_F_ERR_S( "protocol::init_sequence", "unknown device id" ) ;
