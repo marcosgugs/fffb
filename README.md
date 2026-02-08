@@ -65,7 +65,7 @@ the wheel's RPM indicator LEDs are driven by the engine RPM telemetry, progressi
 
 binaries are available on the [releases page](https://github.com/marcosgugs/fffb/releases)
 simply copy `libfffb.dylib` to the plugin directory
-(plugin directory should be next to the game's executable, default for ats would be `~/Library/Application\ Support/Steam/steamapps/common/Euro\ Truck\ Simulator/Euro\ Truck\ Simulator.app/Contents/MacOS/plugins`)
+(plugin directory should be next to the game's executable, default for ats would be `~/Library/Application\ Support/Steam/steamapps/common/Euro\ Truck\ Simulator 2/Euro\ Truck\ Simulator 2.app/Contents/MacOS/plugins`)
 
 ### building from source
 
@@ -85,10 +85,23 @@ make -j8
 # create plugin directory
 ## should be in same directory as ets2/ats executable
 ## this should be the default path
-mkdir ~/Library/Application\ Support/Steam/steamapps/common/Euro\ Truck\ Simulator/Euro\ Truck\ Simulator.app/Contents/MacOS/plugins
+mkdir ~/Library/Application\ Support/Steam/steamapps/common/Euro\ Truck\ Simulator 2/Euro\ Truck\ Simulator 2.app/Contents/MacOS/plugins
 
 # copy plugin to plugin directory
-cp libfffb.dylib ~/Library/Application\ Support/Steam/steamapps/common/Euro\ Truck\ Simulator/Euro\ Truck\ Simulator.app/Contents/MacOS/plugins
+cp libfffb.dylib ~/Library/Application\ Support/Steam/steamapps/common/Euro\ Truck\ Simulator 2/Euro\ Truck\ Simulator 2.app/Contents/MacOS/plugins
+```
+
+alternatively, you can use the build script to clean, build and install in one step:
+
+```bash
+# build and install for Euro Truck Simulator 2 (default)
+./build_and_install.sh
+
+# or explicitly
+./build_and_install.sh --ets
+
+# build and install for American Truck Simulator
+./build_and_install.sh --ats
 ```
 
 now you can launch ets2/ats.

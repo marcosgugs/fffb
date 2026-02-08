@@ -176,6 +176,7 @@ SCSAPI_VOID telemetry_pause ( scs_event_t const event, [[ maybe_unused ]] void c
         }
         else
         {
+                g_game_log( SCS_LOG_TYPE_message, "fffb::info : telemetry unpaused, resuming force feedback" ) ;
                 FFFB_F_INFO_S( "scs::telemetry_pause", "telemetry unpaused, resuming force feedback" ) ;
         }
 }
